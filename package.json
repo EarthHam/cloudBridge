@@ -1,0 +1,57 @@
+{
+  "name": "cloud-bridge",
+  "productName": "cloudBridge",
+  "version": "0.1.0",
+  "description": "Cloud Sat audio, serial, WebSocket and TCP bridge",
+  "main": "src/main/index.cjs",
+  "author": "EarthHam",
+  "license": "ISC",
+  "private": true,
+  "scripts": {
+    "setup:safe": "npm ci --ignore-scripts --audit=false --fund=false && node node_modules/electron/install.js",
+    "dev": "concurrently -k \"vite --host 127.0.0.1\" \"wait-on tcp:5173 && cross-env VITE_DEV_SERVER_URL=http://127.0.0.1:5173 electron .\"",
+    "start": "electron .",
+    "build": "vite build",
+    "test": "vitest run",
+    "test:e2e": "npm run build && playwright test",
+    "test:watch": "vitest",
+    "lint": "eslint . --max-warnings=0",
+    "check": "npm run lint && npm test && npm run build && npm run test:e2e",
+    "icons": "node scripts/generate-icons.mjs",
+    "audit:security": "npm audit --audit-level=moderate --registry=https://registry.npmjs.org",
+    "pack": "npm run build && electron-builder --dir --publish never",
+    "dist:mac": "npm run build && electron-builder --config electron-builder.github.yml --mac dmg zip --publish never",
+    "dist:win": "npm run build && electron-builder --config electron-builder.github.yml --win nsis --x64 --publish never",
+    "dist:mas": "npm run build && electron-builder --mac mas --universal",
+    "dist:msix": "npm run build && electron-builder --win msix --x64"
+  },
+  "dependencies": {
+    "@serialport/parser-inter-byte-timeout": "12.0.0",
+    "pinia": "3.0.4",
+    "qrcode": "1.5.4",
+    "serialport": "12.0.0",
+    "vue": "3.5.43",
+    "vue-i18n": "11.4.20",
+    "vue-router": "4.6.4",
+    "ws": "8.21.3",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "6.0.9",
+    "@vue/test-utils": "2.5.1",
+    "@playwright/test": "1.55.1",
+    "concurrently": "9.2.5",
+    "cross-env": "10.1.0",
+    "electron": "45.3.2",
+    "electron-builder": "27.0.0-alpha.8",
+    "eslint": "9.39.5",
+    "eslint-plugin-vue": "10.11.0",
+    "jsdom": "27.4.0",
+    "vite": "7.3.8",
+    "vitest": "5.1.0",
+    "wait-on": "9.1.0"
+  },
+  "engines": {
+    "node": ">=24.22.3 <25"
+  }
+}

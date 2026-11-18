@@ -1,0 +1,59 @@
+appId: cn.cloudsat.cloudbridge
+productName: cloudBridge
+artifactName: cloudBridge-${version}-${arch}.${ext}
+directories:
+  output: release
+  buildResources: build
+files:
+  - dist/**/*
+  - src/main/**/*
+  - src/preload/**/*
+  - src/audio-renderer/**/*
+  - src/shared/**/*
+  - package.json
+  - LICENSE
+  - '!**/*.test.js'
+  - '!**/.DS_Store'
+extraResources:
+  - from: build
+    to: icons
+    filter:
+      - icon.ico
+      - icon.png
+      - iconTemplate.png
+      - iconTemplate@2x.png
+asar:
+  unpack:
+    - '**/*.node'
+mac:
+  icon: build/icon.icns
+  category: public.app-category.utilities
+  minimumSystemVersion: '13.0'
+  target:
+    - target: mas
+      arch:
+        - universal
+  extendInfo:
+    NSMicrophoneUsageDescription: cloudBridge uses the selected audio input for radio audio forwarding.
+mas:
+  sign:
+    entitlements: build/entitlements.mas.plist
+    entitlementsInherit: build/entitlements.mas.inherit.plist
+    hardenedRuntime: false
+win:
+  icon: build/icon.ico
+  target:
+    - target: msix
+      arch:
+        - x64
+msix:
+  displayName: cloudBridge
+  publisherDisplayName: EarthHam
+  applicationId: CloudBridge
+  languages:
+    - en-US
+    - zh-Hans
+  minVersion: 10.0.19045.0
+  capabilities:
+    - runFullTrust
+  createMsixupload: true

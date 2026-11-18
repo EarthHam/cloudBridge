@@ -1,0 +1,19 @@
+extends: ./electron-builder.yml
+artifactName: cloudBridge-${version}-${os}-${arch}.${ext}
+mac:
+  target:
+    - dmg
+    - zip
+  sign:
+    identity: '-'
+  notarize: false
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  sign: null
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
